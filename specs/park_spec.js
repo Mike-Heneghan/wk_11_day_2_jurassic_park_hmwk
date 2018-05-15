@@ -5,7 +5,9 @@ const Dinosaur = require('../models/dinosaur.js');
 describe('Park', function() {
 
   beforeEach(function () {
-    park = new Park('Jurrasic Park', )
+    park = new Park()
+    dino1 = new Dinosaur('oviraptor', 'omnivore', 20);
+    dino2 = new Dinosaur('most_popular','omnivore', 150);
   })
 
   it('should have a name', function () {
@@ -18,28 +20,45 @@ describe('Park', function() {
     assert.strictEqual(actual, 50.00);
   });
 
-  xit('should have a collection of dinosaurs', function () {
-
+  it('should have a collection of dinosaurs', function () {
+    park.addSomeDefaultDinos();
+    const actual = park.dinosaurs.length;
+    assert.strictEqual(actual, 3);
   });
 
-  xit('should be able to add a dinosaur to its collection', function () {
-
+  it('should be able to add a dinosaur to its collection', function () {
+    park.addSomeDefaultDinos();
+    park.addDinosaur(dino1);
+    const actual = park.dinosaurs.length;
+    assert.strictEqual(actual, 4)
   });
 
-  xit('should be able to remove a dinosaur from its collection', function () {
-
+  it('should be able to remove a dinosaur from its collection', function () {
+    park.addSomeDefaultDinos();
+    park.removeLastDinosaur();
+    const actual = park.dinosaurs.length;
+    assert.strictEqual(actual, 2);
   });
 
-  xit('should be able to find all dinosaurs of a particular species', function () {
-
+  it('should be able to find all dinosaurs of a particular species', function () {
+    park.addSomeDefaultDinos();
+    park.addSomeDefaultDinos();
+    const foundBySpecies = park.findBySpecies('t-rex');
+    assert.strictEqual(foundBySpecies.length, 2);
   });
 
-  xit('should be able to remove all dinosaurs of a particular species', function () {
-
+  it('should be able to remove all dinosaurs of a particular species', function () {
+    park.addSomeDefaultDinos();
+    park.removeDinoBySpecies('t-rex');
+    const actual = park.findBySpecies('t-rex').length;
+    assert.strictEqual(actual, 0);
   });
 
-  xit('should be able to find the dinosaur that attracts the most visitors', function () {
-
+  it('should be able to find the dinosaur that attracts the most visitors', function () {
+    park.addSomeDefaultDinos();
+    park.addDinosaur(dino2);
+    const actual = park.findByPopularity().species;
+    assert.strictEqual(actual, 'most_popular');
   });
 
 });
