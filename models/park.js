@@ -1,5 +1,7 @@
 const Dinosaur = require('./dinosaur');
 
+const DietObject = require('./dietObject');
+
 const Park = function(name = 'Jurrasic Park', price = 50.00){
   this.name = name;
   this.price = price;
@@ -57,5 +59,53 @@ Park.prototype.findByPopularity = function(){
   }
   return mostPopularDinosaur;
 };
+
+Park.prototype.calculateVisitors = function(){
+  let visitorCount = 0;
+  for (dino of this.dinosaurs){
+    visitorCount += dino.guestsAttractedPerDay;
+  }
+  return visitorCount;
+};
+
+Park.prototype.calculateVisitorsPerYear = function(){
+  return (this.calculateVisitors() * 365);
+}
+
+Park.prototype.calculateTotalRevenue = function(){
+  return (this.calculateVisitorsPerYear() * this.price);
+}
+
+Park.prototype.returnDietObject = function(){
+  let dietObject = null;
+  let carnivoreCount = 0;
+  let herbivoreCount = 0;
+  let omnivoreCount = 0;
+  for (dino of this.dinosaurs){
+    if (dino.diet === 'carnivore'){
+      carnivoreCount ++;
+    }
+    else if (dino.diet === 'herbivore'){
+      herbivoreCount ++;
+    }
+    else if (dino.diet === 'omnivore'){
+      omnivoreCount ++;
+    }
+  }
+  dietObject = new DietObject(carnivoreCount, herbivoreCount, omnivoreCount);
+  return dietObject;
+}
+
+// Park.prototype.returnCarnivores = function(){
+//   const carnivores = [];
+//   for (dino in this.dinosaurs){
+//     if (dino.species === 'carnivore'){
+//       carnivores.push(dino);
+//     }
+//   }
+//   return carnivores;
+// }
+
+
 
 module.exports = Park;

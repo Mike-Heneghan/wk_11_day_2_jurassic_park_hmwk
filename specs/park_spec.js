@@ -61,4 +61,32 @@ describe('Park', function() {
     assert.strictEqual(actual, 'most_popular');
   });
 
+  it('should be able to calculate the number of guests per day (assumption each dinosaur attracts unique guests)', function(){
+    park.addSomeDefaultDinos();
+    const actual = park.calculateVisitors();
+    assert.strictEqual(actual, 115);
+  });
+
+  it('should be able to calculate number of visitors per year', function(){
+    park.addSomeDefaultDinos();
+    const actual = park.calculateVisitorsPerYear();
+    assert.strictEqual(actual ,41975);
+  });
+
+  it('should be able to calculate revenue per year', function(){
+    park.addSomeDefaultDinos();
+    const actual = park.calculateTotalRevenue();
+    assert.strictEqual(actual, 2098750);
+  })
+
+  it('should be able to return object with count of dinosaur types', function(){
+    park.addSomeDefaultDinos();
+    park.addSomeDefaultDinos();
+    park.addDinosaur(dino1);
+    const actual = park.returnDietObject();
+    // console.log(actual);
+    const comparison = {'carnivores':4, 'herbivores':2, 'omnivores':1};
+    assert.deepEqual(actual, comparison);
+  })
+
 });
